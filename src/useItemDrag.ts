@@ -8,7 +8,7 @@ export const useItemDrag = (item: DragItem) => {
     type: item.type,
     item: () => {
       dispatch({ type: "SET_DRAGGED_ITEM", payload: item });
-      return { isDragging: true };
+      return item;
     },
     end: () => dispatch({ type: "SET_DRAGGED_ITEM", payload: undefined }),
     collect: (monitor) => ({
