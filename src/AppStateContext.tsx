@@ -17,6 +17,7 @@ interface List {
 
 export interface AppState {
   lists: List[];
+  draggedItem?: DragItem | undefined;
 }
 
 const appData: AppState = {
