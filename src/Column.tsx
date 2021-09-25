@@ -12,10 +12,17 @@ interface ColumnProps {
   text: string;
   index: number;
   id: string;
+  isPreview?: boolean;
 }
 
-export const Column: React.FC<ColumnProps> = ({ text, index, id }) => {
+export const Column: React.FC<ColumnProps> = ({
+  text,
+  index,
+  id,
+  isPreview,
+}) => {
   const { state, dispatch } = useAppState();
+
   const [, drop] = useDrop({
     accept: "COLUMN",
     hover: (item: DragItem) => {
@@ -28,13 +35,18 @@ export const Column: React.FC<ColumnProps> = ({ text, index, id }) => {
       item.index = hoverIndex;
     },
   });
+
   const ref = useRef<HTMLDivElement>(null);
+
   const { drag } = useItemDrag({ type: "COLUMN", id, index, text });
+
   drop(drag(ref));
+
   return (
     <ColumnContainer
+      isPreview={isPreview}
       ref={ref}
-      isHidden={isHidden(state.draggedItem, "COLUMN", id)}
+      isHidden={isHidden(isPreview, state.draggedItem, "COLUMN", id)}
     >
       <ColumnTitle>{text}</ColumnTitle>
       {state.lists[index].tasks.map((task) => (
